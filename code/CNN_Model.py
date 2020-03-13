@@ -93,7 +93,8 @@ class AlexNet():
         model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
         self.model=model
     def train_model(self):
-        self.model.fit(self.train_data,self.train_label_onehot,batch_size=128,epochs=10,verbose=1,callbacks=[EarlyStopping])
+        early_stopping=EarlyStopping(monitor='acc',patience=5,verbose=1)
+        self.model.fit(self.train_data,self.train_label_onehot,batch_size=128,epochs=10,verbose=1,callbacks=[early_stopping])
     def evlauate_model(self):
         score=self.model.evaluate(self.test_data,self.test_label_onehot,batch_size=128,verbose=1)
         print("Test loss:{},Test accuracy:{}".format(score[0],score[1]))
